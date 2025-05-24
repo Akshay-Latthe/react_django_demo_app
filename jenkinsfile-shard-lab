@@ -1,0 +1,42 @@
+@Library('Shared')_
+pipeline {
+    agent { label 'vinod'}
+    
+    stages{
+        stage("Code clone"){
+            steps {
+                script {
+                    code_checkout("https://github.com/Akshay-Latthe/react_django_demo_app.git","main")
+                }
+            }
+        }
+        stage("clean up"){
+            steps {
+                script {
+                    docker_cleanup("notes-app","latest","lattheakshay10")
+                }
+            }
+        }
+        stage("Code Build"){
+            steps {
+                script {
+                    docker_build("notes-app","latest","lattheakshay10")
+                }
+            }
+        }
+        stage("Push to DockerHub"){
+            steps {
+                script {
+                   docker_push("notes-app","latest","lattheakshay10")
+                }
+             }
+        }
+        stage("Deploy app"){
+            steps {
+                script {
+                    docker_compose()
+                }
+            }
+        }
+    }
+}
