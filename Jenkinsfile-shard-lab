@@ -10,13 +10,6 @@ pipeline {
                 }
             }
         }
-        stage("clean up"){
-            steps {
-                script {
-                    docker_cleanup("notes-app","latest","lattheakshay10")
-                }
-            }
-        }
         stage("Code Build"){
             steps {
                 script {
